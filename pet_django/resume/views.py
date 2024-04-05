@@ -26,7 +26,7 @@ class IndustriesList(APIView):
         serializer = PositionAndIndustriesListSerializer(
             {
                 "position_name": position.position_name,
-                "industry_names": industries,
+                "industries": industries,
             }
         )
         return Response(serializer.data)
@@ -41,15 +41,14 @@ class CompetenciesList(APIView):
             position_name__iexact=position_name
         ).position_type
 
-        # При получении компетенций рассмотреть всевозможные варианты в процессе ручного тестирования
         general_competencies = General.objects.filter(position_type=position_type)
         professional_competencies = Profession.objects.filter(
             position_type=position_type
         ).filter(industry=Industry.objects.get(industry_name__iexact=industry_name))
 
         data = {
-            "position_name": position_name.capitalize(),
-            "industry_name": Industry.objects.get(industry_name__iexact=industry_name),
+            "position_name": position_name,
+            "industry": Industry.objects.get(industry_name__iexact=industry_name),
             "general_competencies": general_competencies,
             "professional_competencies": professional_competencies,
         }

@@ -41,8 +41,8 @@ class ProfessionSerializer(serializers.ModelSerializer):
         fields = ("professional_experience",)
 
 
-class PositionIndustryAndCompetenciesSerializer(serializers.Serializer):
-    industry_name = IndustrySerializer()
+class PositionIndustryAndCompetenciesSerializer(serializers.ModelSerializer):
+    industry = IndustrySerializer()
     leader_competencies = serializers.ListField(
         child=LeaderSerializer(), required=False
     )
@@ -51,4 +51,10 @@ class PositionIndustryAndCompetenciesSerializer(serializers.Serializer):
 
     class Meta:
         model = Position
-        fields = ("position_name",)
+        fields = (
+            "position_name",
+            "industry",
+            "leader_competencies",
+            "general_competencies",
+            "professional_competencies",
+        )
