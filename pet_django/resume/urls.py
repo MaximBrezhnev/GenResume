@@ -6,4 +6,5 @@ urlpatterns = [
     path(
         "competencies/", views.CompetenciesList.as_view(), name="list-of-competencies"
     ),
+    path("create-position/", views.CreatePosition.as_view(), name="create-position"),
 ]

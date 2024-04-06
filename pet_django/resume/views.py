@@ -5,9 +5,12 @@ from resume.models import General
 from resume.models import Industry
 from resume.models import Leader
 from resume.models import Position
+from resume.models import PositionType
 from resume.models import Profession
+from resume.serializers import CreatePositionSerializer
 from resume.serializers import PositionAndIndustriesListSerializer
 from resume.serializers import PositionIndustryAndCompetenciesSerializer
+from resume.serializers import PositionTypesSerializer
 
 
 class IndustriesList(APIView):
@@ -18,8 +21,9 @@ class IndustriesList(APIView):
             position = Position.objects.get(position_name__iexact=position_name)
             industries = Industry.objects.all()
         except Position.DoesNotExist:
+            position_types = PositionType.objects.all()
             return Response(
-                data={"message": "Position not found"},
+                data=PositionTypesSerializer(position_types, many=True).data,
                 status=status.HTTP_404_NOT_FOUND,
             )
 
@@ -29,7 +33,10 @@ class IndustriesList(APIView):
                 "industries": industries,
             }
         )
-        return Response(serializer.data)
+        return Response(
+            data=serializer.data,
+            status=status.HTTP_200_OK,
+        )
 
 
 class CompetenciesList(APIView):
@@ -59,3 +66,35 @@ class CompetenciesList(APIView):
 
         serializer = PositionIndustryAndCompetenciesSerializer(data)
         return Response(serializer.data)
+
+
+class CreatePosition(APIView):
+    def post(self, request):
+        serializer_for_request = CreatePositionSerializer(data=request.data)
+        if not serializer_for_request.is_valid():
+            return Response(
+                data={"message": "Invalid data"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        position_type = PositionType.objects.get(
+            position_type_name=serializer_for_request.data["position_type_name"]
+        )
+        new_position = Position.objects.create(
+            position_name=serializer_for_request.data["position_name"].capitalize(),
+            position_type=position_type,
+        )
+
+        serializer = PositionAndIndustriesListSerializer(
+            {
+                "position_name": new_position.position_name,
+                "industries": Industry.objects.all(),
+            }
+        )
+
+        return Response(data=serializer.data)
+
+
+class GetResume(APIView):
+    def get(self, request):
+        pass
