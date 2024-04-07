@@ -44,3 +44,11 @@ class General(models.Model):
 class Leader(models.Model):
     leader_experience = models.TextField(unique=True)
     position_type = models.ForeignKey(to="PositionType", on_delete=models.PROTECT)
+
+
+class Document(models.Model):
+    def __str__(self):
+        return self.filename
+
+    filename = models.CharField(max_length=100, unique=True)
+    file = models.FileField(upload_to="resume/documents")

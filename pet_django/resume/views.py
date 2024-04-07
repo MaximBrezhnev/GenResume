@@ -65,6 +65,7 @@ class CompetenciesList(APIView):
             data.update({"leader_competencies": leader_competencies})
 
         serializer = PositionIndustryAndCompetenciesSerializer(data)
+        """Тут будет формирование документа"""
         return Response(serializer.data)
 
 
