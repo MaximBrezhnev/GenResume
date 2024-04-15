@@ -1,0 +1,18 @@
+version: "3.0"
+
+services:
+  db_local:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - "8000:5432"
+    networks:
+      - custom
+
+networks:
+  custom:
+    driver: bridge

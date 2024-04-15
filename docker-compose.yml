@@ -13,6 +13,34 @@ services:
     networks:
       - custom
 
+  redis:
+    image: redis
+    restart: always
+    networks:
+      - custom
+
+  app:
+    restart: always
+    depends_on:
+      - db
+    build:
+      context: .
+    ports:
+      - "7000:7000"
+    networks:
+      - custom
+
+  worker:
+    restart: always
+    depends_on:
+      - redis
+    build:
+      context: .
+    networks:
+      - custom
+    command: ["celery", "--workdir=./pet_django", "-A", "pet_django", "worker"]
+
+
 networks:
   custom:
     driver: bridge

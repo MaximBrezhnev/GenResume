@@ -61,8 +61,8 @@ DATABASES = {
         "NAME": "postgres",
         "USER": "postgres",
         "PASSWORD": "postgres",
-        "HOST": "127.0.0.1",
-        "PORT": 5432,
+        "HOST": "localhost",
+        "PORT": 8000,
     }
 }
 
@@ -85,7 +85,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Moscow"
 
 USE_I18N = True
 
@@ -109,3 +109,6 @@ EMAIL_HOST_PASSWORD = "ZfvjLrQEEPNaKiJk3aqn"
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
+
+
+CELERY_BROKER_URL = "redis://redis:6379"

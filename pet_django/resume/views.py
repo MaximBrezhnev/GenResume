@@ -1,6 +1,8 @@
+from django.db import IntegrityError
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from resume.actions import extend_document
 from resume.actions import generate_document
 from resume.actions import get_data_from_document
 from resume.models import General
@@ -10,9 +12,11 @@ from resume.models import Position
 from resume.models import PositionType
 from resume.models import Profession
 from resume.serializers import CreatePositionSerializer
-from resume.serializers import ShowCompetenciesSerializer
+from resume.serializers import GetResumeSerializer
 from resume.serializers import ShowIndustriesSerializer
 from resume.serializers import ShowPositionTypesSerializer
+from resume.serializers import ShowSeveralCompetenciesSerializer
+from resume.tasks import send_file_by_email
 
 
 @api_view(["GET"])
@@ -41,7 +45,12 @@ def check_position(request):
 
     except Position.DoesNotExist:
         position_types = [obj.position_type_name for obj in PositionType.objects.all()]
-        data.update({"position_types": position_types})
+        data.update(
+            {
+                "position_name": position_name,
+                "position_types": position_types,
+            }
+        )
 
         serializer = ShowPositionTypesSerializer(data)
         return Response(
@@ -68,10 +77,18 @@ def create_position(request):
     position_type = PositionType.objects.get(
         position_type_name=data_from_request["position_type_name"]
     )
-    new_position = Position.objects.create(
-        position_name=data_from_request["position_name"].capitalize(),
-        position_type=position_type,
-    )
+    try:
+        # Удостовериться, точно ли есть смысл в этой части
+        new_position = Position.objects.create(
+            position_name=data_from_request["position_name"].capitalize(),
+            position_type=position_type,
+        )
+    except IntegrityError:
+        return Response(
+            data={"message": "This position already exists"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
     industries = [obj.industry_name for obj in Industry.objects.all()]
 
     data_for_response.update(
@@ -85,54 +102,11 @@ def create_position(request):
     return Response(data=serializer_for_response.data)
 
 
-# @api_view(["GET"])
-# def get_competencies(request):
-#     position_name = request.query_params["position_name"]
-#     industry_name = request.query_params["industry_name"]
-#     position_type = Position.objects.get(
-#         position_name=position_name
-#     ).position_type
-#
-#     general_competencies = [
-#         obj.general_experience for obj in General.objects.filter(position_type=position_type)
-#     ]
-#     professional_competencies = [
-#         obj.professional_experience for obj in
-#         Profession.objects.filter(
-#             position_type=position_type,
-#             industry=Industry.objects.get(industry_name=industry_name))
-#     ]
-#     data = {
-#         "position_name": position_name,
-#         "industry": industry_name,
-#         "general_competencies": general_competencies,
-#         "professional_competencies": professional_competencies,
-#     }
-#     if position_type.is_leader:
-#         leader_competencies = [
-#             obj.leader_experience for obj in
-#             Leader.objects.filter(position_type=position_type)
-#         ]
-#         data.update({"leader_competencies": leader_competencies})
-#
-#     # Провести рефакторинг условного оператора
-#     document_id = request.query_params.get("document_id", None)
-#     if document_id is None:
-#         document_id = generate_document(data)
-#         data.update({"document_id": document_id})
-#         serializer = ShowCompetenciesSerializer(data)
-#         return Response(serializer.data)
-#
-#     data.update(get_data_from_document(document_id))
-#     print(data)
-#     return Response()
-
-
 @api_view(["GET"])
 def get_competencies(request):
     position_name = request.query_params["position_name"]
     industry_name = request.query_params["industry_name"]
-    document_id = request.get("document_id", None)
+    document_id = request.query_params.get("document_id", None)
     position_type = Position.objects.get(position_name=position_name).position_type
 
     general_competencies = [
@@ -161,15 +135,34 @@ def get_competencies(request):
 
     if document_id is None:
         document_id = generate_document(data)
-        data.update({"document_id": document_id})
-        serializer = ShowCompetenciesSerializer(data)
-        return Response(serializer.data)
+        serializer = ShowSeveralCompetenciesSerializer(
+            {
+                "document_id": document_id,
+                "positions": [data],
+            }
+        )
+    else:
+        new_document_id = extend_document(document_id, data)
+        data_from_document = get_data_from_document(document_id)
+        data_from_document.append(data)
+        serializer = ShowSeveralCompetenciesSerializer(
+            {
+                "document_id": new_document_id,
+                "positions": data_from_document,
+            }
+        )
+    return Response(serializer.data)
 
-    data.update(get_data_from_document(document_id))
-    print(data)
-    return Response()
 
-
-@api_view(["GET"])
+@api_view(["POST"])
 def get_resume(request):
-    pass
+    serializer_for_request = GetResumeSerializer(data=request.data)
+
+    if not serializer_for_request.is_valid():
+        return Response(
+            data={"message": "Invalid data"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    data_from_request = serializer_for_request.data
+    send_file_by_email(**data_from_request)
+    return Response(data={"message": "The e-mail was sent"})
