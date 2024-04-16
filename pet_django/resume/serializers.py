@@ -52,7 +52,7 @@ class CreatePositionSerializer(serializers.ModelSerializer):
             "position_type_name",
         )
 
-    def validate_position_name(self, value):
+    def validate_position_name(self, value: str) -> str:
         if len(value) < 1:
             raise serializers.ValidationError
         for char in value:

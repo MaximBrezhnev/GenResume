@@ -8,7 +8,7 @@ from pet_django.settings import BASE_DIR
 
 
 @shared_task
-def send_file_by_email(document_id, email):
+def send_file_by_email(document_id: str, email: str) -> None:
     file_path = get_file_path(document_id)
 
     email_message = EmailMessage(
@@ -25,7 +25,7 @@ def send_file_by_email(document_id, email):
     os.remove(file_path)
 
 
-def get_file_path(document_id):
+def get_file_path(document_id: str) -> str:
     folder_path = BASE_DIR / "resume" / "documents"
     filename = folder_path / f"{document_id}.pdf"
     return filename

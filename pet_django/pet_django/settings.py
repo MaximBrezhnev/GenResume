@@ -61,8 +61,8 @@ DATABASES = {
         "NAME": "postgres",
         "USER": "postgres",
         "PASSWORD": "postgres",
-        "HOST": "localhost",
-        "PORT": 8000,
+        "HOST": "localhost",  # db
+        "PORT": 8000,  # 5432
     }
 }
 
@@ -83,7 +83,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ru-ru"
 
 TIME_ZONE = "Europe/Moscow"
 

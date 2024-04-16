@@ -1,6 +1,6 @@
-from django.db import IntegrityError
 from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.request import Request
 from rest_framework.response import Response
 from resume.actions import extend_document
 from resume.actions import generate_document
@@ -20,7 +20,7 @@ from resume.tasks import send_file_by_email
 
 
 @api_view(["GET"])
-def check_position(request):
+def check_position(request: Request) -> Response:
     position_name = request.query_params["position_name"]
     document_id = request.query_params.get("document_id", None)
 
@@ -60,7 +60,7 @@ def check_position(request):
 
 
 @api_view(["POST"])
-def create_position(request):
+def create_position(request: Request) -> Response:
     serializer_for_request = CreatePositionSerializer(data=request.data)
 
     if not serializer_for_request.is_valid():
@@ -77,18 +77,10 @@ def create_position(request):
     position_type = PositionType.objects.get(
         position_type_name=data_from_request["position_type_name"]
     )
-    try:
-        # Удостовериться, точно ли есть смысл в этой части
-        new_position = Position.objects.create(
-            position_name=data_from_request["position_name"].capitalize(),
-            position_type=position_type,
-        )
-    except IntegrityError:
-        return Response(
-            data={"message": "This position already exists"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-
+    new_position = Position.objects.create(
+        position_name=data_from_request["position_name"].capitalize(),
+        position_type=position_type,
+    )
     industries = [obj.industry_name for obj in Industry.objects.all()]
 
     data_for_response.update(
@@ -103,7 +95,7 @@ def create_position(request):
 
 
 @api_view(["GET"])
-def get_competencies(request):
+def get_competencies(request: Request) -> Response:
     position_name = request.query_params["position_name"]
     industry_name = request.query_params["industry_name"]
     document_id = request.query_params.get("document_id", None)
@@ -155,7 +147,7 @@ def get_competencies(request):
 
 
 @api_view(["POST"])
-def get_resume(request):
+def get_resume(request: Request) -> Response:
     serializer_for_request = GetResumeSerializer(data=request.data)
 
     if not serializer_for_request.is_valid():
