@@ -1,6 +1,0 @@
-export EMAIL_HOST_USER="max.b04.03@mail.ru"
-export EMAIL_HOST_PASSWORD="ZfvjLrQEEPNaKiJk3aqn"
-export SECRET_KEY="django-insecure-(k\$t7)tt(9&\$*0l*w7)8%f)-v_#puyeq#tn(@m!*@ep7vcowzb"
-export POSTGRES_NAME="postgres"
-export POSTGRES_PASSWORD="postgres"
-export POSTGRES_DB="postgres"
