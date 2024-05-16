@@ -156,5 +156,6 @@ def get_resume(request: Request) -> Response:
             status=status.HTTP_400_BAD_REQUEST,
         )
     data_from_request = serializer_for_request.data
+    # Возможно, в этом причина медленной работы, в рамках рефакторинг посмотреть
     send_file_by_email(**data_from_request)
     return Response(data={"message": "The e-mail was sent"})

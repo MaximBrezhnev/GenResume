@@ -9,7 +9,7 @@ from pet_django import settings
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pet_django.settings")
 
-app = Celery("resume")
+app = Celery("pet_django")
 app.config_from_object("django.conf:settings", namespace="CELERY")
 
 app.conf.enable_utc = False
