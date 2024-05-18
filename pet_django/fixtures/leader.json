@@ -1,0 +1,66 @@
+[
+{
+  "model": "resume.leader",
+  "pk": 1,
+  "fields": {
+    "leader_experience": "Быстро реагировал на изменения раынка и изменения по проектам, анализировал планы работ",
+    "position_type": 1
+  }
+},
+{
+  "model": "resume.leader",
+  "pk": 2,
+  "fields": {
+    "leader_experience": "Управлял коллективом с соблюдением структуры: глобальное, общее и локальное",
+    "position_type": 1
+  }
+},
+{
+  "model": "resume.leader",
+  "pk": 3,
+  "fields": {
+    "leader_experience": "Управлял многосоставным коллективом",
+    "position_type": 10
+  }
+},
+{
+  "model": "resume.leader",
+  "pk": 4,
+  "fields": {
+    "leader_experience": "Выявлял и развивал потенциаль работников",
+    "position_type": 10
+  }
+},
+{
+  "model": "resume.leader",
+  "pk": 5,
+  "fields": {
+    "leader_experience": "Внедрял культуру обратной связи для развития компетенций своей команды",
+    "position_type": 10
+  }
+},
+{
+  "model": "resume.leader",
+  "pk": 6,
+  "fields": {
+    "leader_experience": "Проводил анализ для принятия решений",
+    "position_type": 10
+  }
+},
+{
+  "model": "resume.leader",
+  "pk": 7,
+  "fields": {
+    "leader_experience": "Разрабатывал систему планирования и стратегических измерений",
+    "position_type": 10
+  }
+},
+{
+  "model": "resume.leader",
+  "pk": 8,
+  "fields": {
+    "leader_experience": "Проводил эффективности процессов и команды через применение ключевых показателей",
+    "position_type": 10
+  }
+}
+]

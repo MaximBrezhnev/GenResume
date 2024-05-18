@@ -1,0 +1,149 @@
+[
+{
+  "model": "resume.industry",
+  "pk": 1,
+  "fields": {
+    "industry_name": "Пищевое производство"
+  }
+},
+{
+  "model": "resume.industry",
+  "pk": 2,
+  "fields": {
+    "industry_name": "Металлургическая промышленность"
+  }
+},
+{
+  "model": "resume.industry",
+  "pk": 3,
+  "fields": {
+    "industry_name": "Нефте-газовое производство и транспортировка ресурсов"
+  }
+},
+{
+  "model": "resume.industry",
+  "pk": 4,
+  "fields": {
+    "industry_name": "Информационно-вычислительные технологии"
+  }
+},
+{
+  "model": "resume.industry",
+  "pk": 5,
+  "fields": {
+    "industry_name": "Сельское, лесное хозяйство, охота и рыболовство"
+  }
+},
+{
+  "model": "resume.industry",
+  "pk": 6,
+  "fields": {
+    "industry_name": "Транспорт"
+  }
+},
+{
+  "model": "resume.industry",
+  "pk": 7,
+  "fields": {
+    "industry_name": "Связь"
+  }
+},
+{
+  "model": "resume.industry",
+  "pk": 8,
+  "fields": {
+    "industry_name": "Строительство"
+  }
+},
+{
+  "model": "resume.industry",
+  "pk": 9,
+  "fields": {
+    "industry_name": "Торговля"
+  }
+},
+{
+  "model": "resume.industry",
+  "pk": 10,
+  "fields": {
+    "industry_name": "Общественное питание"
+  }
+},
+{
+  "model": "resume.industry",
+  "pk": 11,
+  "fields": {
+    "industry_name": "Материально-техническое снабжение и быт"
+  }
+},
+{
+  "model": "resume.industry",
+  "pk": 12,
+  "fields": {
+    "industry_name": "Операции с недвижимым имуществом"
+  }
+},
+{
+  "model": "resume.industry",
+  "pk": 13,
+  "fields": {
+    "industry_name": "Жилищно-коммунальное хозяйство"
+  }
+},
+{
+  "model": "resume.industry",
+  "pk": 14,
+  "fields": {
+    "industry_name": "Здравоохранение"
+  }
+},
+{
+  "model": "resume.industry",
+  "pk": 15,
+  "fields": {
+    "industry_name": "Физическая культура и социальное обеспечение"
+  }
+},
+{
+  "model": "resume.industry",
+  "pk": 16,
+  "fields": {
+    "industry_name": "Народное образование"
+  }
+},
+{
+  "model": "resume.industry",
+  "pk": 17,
+  "fields": {
+    "industry_name": "Культура и искусство"
+  }
+},
+{
+  "model": "resume.industry",
+  "pk": 18,
+  "fields": {
+    "industry_name": "Наука и научное обслуживание"
+  }
+},
+{
+  "model": "resume.industry",
+  "pk": 19,
+  "fields": {
+    "industry_name": "Финансы, кредит, страхование, пенсионное обеспечение"
+  }
+},
+{
+  "model": "resume.industry",
+  "pk": 20,
+  "fields": {
+    "industry_name": "Управление предприятиями"
+  }
+},
+{
+  "model": "resume.industry",
+  "pk": 21,
+  "fields": {
+    "industry_name": "Общественные объединения"
+  }
+}
+]

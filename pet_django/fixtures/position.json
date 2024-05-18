@@ -1,0 +1,426 @@
+[
+{
+  "model": "resume.position",
+  "pk": 1,
+  "fields": {
+    "position_name": "Менеджер по продажам",
+    "position_type": 1
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 2,
+  "fields": {
+    "position_name": "Продавец",
+    "position_type": 2
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 3,
+  "fields": {
+    "position_name": "Кассир",
+    "position_type": 2
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 4,
+  "fields": {
+    "position_name": "Водитель",
+    "position_type": 4
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 5,
+  "fields": {
+    "position_name": "Бухгалтер",
+    "position_type": 3
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 6,
+  "fields": {
+    "position_name": "Повар",
+    "position_type": 5
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 7,
+  "fields": {
+    "position_name": "Оператор колл-центра",
+    "position_type": 2
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 8,
+  "fields": {
+    "position_name": "Упаковщик",
+    "position_type": 6
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 9,
+  "fields": {
+    "position_name": "Комплектовщик",
+    "position_type": 6
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 10,
+  "fields": {
+    "position_name": "Врач",
+    "position_type": 7
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 11,
+  "fields": {
+    "position_name": "Кладовщик",
+    "position_type": 5
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 12,
+  "fields": {
+    "position_name": "Инженер-конструктор",
+    "position_type": 8
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 13,
+  "fields": {
+    "position_name": "Администратор",
+    "position_type": 1
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 14,
+  "fields": {
+    "position_name": "Программист",
+    "position_type": 9
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 15,
+  "fields": {
+    "position_name": "Слесарь",
+    "position_type": 5
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 16,
+  "fields": {
+    "position_name": "Сантехник",
+    "position_type": 5
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 17,
+  "fields": {
+    "position_name": "Курьер",
+    "position_type": 5
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 18,
+  "fields": {
+    "position_name": "Управляющий",
+    "position_type": 10
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 19,
+  "fields": {
+    "position_name": "Руководитель проекта",
+    "position_type": 10
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 20,
+  "fields": {
+    "position_name": "Строитель",
+    "position_type": 5
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 21,
+  "fields": {
+    "position_name": "Маркетолог",
+    "position_type": 9
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 22,
+  "fields": {
+    "position_name": "Логист",
+    "position_type": 1
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 23,
+  "fields": {
+    "position_name": "Юрист",
+    "position_type": 9
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 24,
+  "fields": {
+    "position_name": "Бизнес-аналитик",
+    "position_type": 9
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 25,
+  "fields": {
+    "position_name": "Специалист по ИИ и машинному обучению",
+    "position_type": 9
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 26,
+  "fields": {
+    "position_name": "Инженер по кибербезопаности",
+    "position_type": 8
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 27,
+  "fields": {
+    "position_name": "Инженер по робототехнике",
+    "position_type": 8
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 28,
+  "fields": {
+    "position_name": "Специалист по большим данным",
+    "position_type": 9
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 29,
+  "fields": {
+    "position_name": "Менеджер по работе с клиентами",
+    "position_type": 1
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 30,
+  "fields": {
+    "position_name": "Токарь",
+    "position_type": 5
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 31,
+  "fields": {
+    "position_name": "Фрезеровщик",
+    "position_type": 5
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 32,
+  "fields": {
+    "position_name": "Электромонтажник",
+    "position_type": 5
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 33,
+  "fields": {
+    "position_name": "Продавец-консультант",
+    "position_type": 2
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 34,
+  "fields": {
+    "position_name": "Технолог",
+    "position_type": 11
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 35,
+  "fields": {
+    "position_name": "Сервисный инженер",
+    "position_type": 8
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 36,
+  "fields": {
+    "position_name": "Машинист",
+    "position_type": 4
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 37,
+  "fields": {
+    "position_name": "Сварщик",
+    "position_type": 5
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 38,
+  "fields": {
+    "position_name": "Оператор станков с ЧПУ",
+    "position_type": 6
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 39,
+  "fields": {
+    "position_name": "Менеджер по закупкам",
+    "position_type": 1
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 40,
+  "fields": {
+    "position_name": "Инженер-энергетик",
+    "position_type": 8
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 41,
+  "fields": {
+    "position_name": "Инженер-электрик",
+    "position_type": 8
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 42,
+  "fields": {
+    "position_name": "Оператор по производственной линии",
+    "position_type": 6
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 43,
+  "fields": {
+    "position_name": "Начальник смены",
+    "position_type": 10
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 44,
+  "fields": {
+    "position_name": "Мастер участка",
+    "position_type": 10
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 45,
+  "fields": {
+    "position_name": "Проектировщик",
+    "position_type": 8
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 46,
+  "fields": {
+    "position_name": "Сервисный механик",
+    "position_type": 12
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 47,
+  "fields": {
+    "position_name": "Начальник производства",
+    "position_type": 10
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 48,
+  "fields": {
+    "position_name": "Инженер по эксплуатации",
+    "position_type": 8
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 49,
+  "fields": {
+    "position_name": "Научный специалист",
+    "position_type": 9
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 50,
+  "fields": {
+    "position_name": "Исследователь",
+    "position_type": 9
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 51,
+  "fields": {
+    "position_name": "Инженер по ОТиПБ",
+    "position_type": 8
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 52,
+  "fields": {
+    "position_name": "Инженер-эколог",
+    "position_type": 8
+  }
+},
+{
+  "model": "resume.position",
+  "pk": 53,
+  "fields": {
+    "position_name": "Механик",
+    "position_type": 12
+  }
+}
+]

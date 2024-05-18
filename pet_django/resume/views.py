@@ -1,161 +1,84 @@
+from smtplib import SMTPDataError
+from smtplib import SMTPRecipientsRefused
+
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.request import Request
 from rest_framework.response import Response
-from resume.actions import extend_document
-from resume.actions import generate_document
-from resume.actions import get_data_from_document
-from resume.models import General
-from resume.models import Industry
-from resume.models import Leader
 from resume.models import Position
-from resume.models import PositionType
-from resume.models import Profession
 from resume.serializers import CreatePositionSerializer
 from resume.serializers import GetResumeSerializer
 from resume.serializers import ShowIndustriesSerializer
 from resume.serializers import ShowPositionTypesSerializer
 from resume.serializers import ShowSeveralCompetenciesSerializer
-from resume.tasks import send_file_by_email
+from resume.services.services import get_list_of_competencies
+from resume.services.services import get_position_and_industries
+from resume.services.services import get_position_and_types
+from resume.services.services import get_response_data_when_creating
+from resume.services.services import send_resume
 
 
 @api_view(["GET"])
 def check_position(request: Request) -> Response:
-    position_name = request.query_params["position_name"]
     document_id = request.query_params.get("document_id", None)
-
-    data = {}
-    if document_id is not None:
-        data["document_id"] = document_id
+    position = request.query_params.get("position")
 
     try:
-        position = Position.objects.get(position_name__iexact=position_name)
-        industries = [obj.industry_name for obj in Industry.objects.all()]
-        data.update(
-            {
-                "position_name": position.position_name,
-                "industries": industries,
-            }
-        )
-
-        serializer = ShowIndustriesSerializer(data)
+        data = get_position_and_industries(document_id=document_id, position=position)
         return Response(
-            data=serializer.data,
+            data=ShowIndustriesSerializer(data).data,
         )
 
     except Position.DoesNotExist:
-        position_types = [obj.position_type_name for obj in PositionType.objects.all()]
-        data.update(
-            {
-                "position_name": position_name,
-                "position_types": position_types,
-            }
-        )
-
-        serializer = ShowPositionTypesSerializer(data)
+        data = get_position_and_types(document_id=document_id, position=position)
         return Response(
-            data=serializer.data,
+            data=ShowPositionTypesSerializer(data).data,
             status=status.HTTP_404_NOT_FOUND,
         )
 
 
 @api_view(["POST"])
 def create_position(request: Request) -> Response:
-    serializer_for_request = CreatePositionSerializer(data=request.data)
+    deserializer = CreatePositionSerializer(data=request.data)
 
-    if not serializer_for_request.is_valid():
+    if not deserializer.is_valid():
         return Response(
             data={"message": "Invalid data"},
-            status=status.HTTP_400_BAD_REQUEST,
+            status=status.HTTP_422_UNPROCESSABLE_ENTITY,
         )
-    data_from_request = serializer_for_request.data
 
-    data_for_response = {}
-    if serializer_for_request.data.get("document_id", None) is not None:
-        data_for_response.update({"document_id": data_from_request["document_id"]})
-
-    position_type = PositionType.objects.get(
-        position_type_name=data_from_request["position_type_name"]
-    )
-    new_position = Position.objects.create(
-        position_name=data_from_request["position_name"].capitalize(),
-        position_type=position_type,
-    )
-    industries = [obj.industry_name for obj in Industry.objects.all()]
-
-    data_for_response.update(
-        {
-            "position_name": new_position.position_name,
-            "industries": industries,
-        }
-    )
-
-    serializer_for_response = ShowIndustriesSerializer(data_for_response)
-    return Response(data=serializer_for_response.data)
+    response_data = get_response_data_when_creating(data=deserializer.data)
+    return Response(data=ShowIndustriesSerializer(response_data).data)
 
 
 @api_view(["GET"])
 def get_competencies(request: Request) -> Response:
-    position_name = request.query_params["position_name"]
-    industry_name = request.query_params["industry_name"]
+    position = request.query_params.get("position")
+    industry = request.query_params.get("industry")
     document_id = request.query_params.get("document_id", None)
-    position_type = Position.objects.get(position_name=position_name).position_type
 
-    general_competencies = [
-        obj.general_experience
-        for obj in General.objects.filter(position_type=position_type)
-    ]
-    professional_competencies = [
-        obj.professional_experience
-        for obj in Profession.objects.filter(
-            position_type=position_type,
-            industry=Industry.objects.get(industry_name=industry_name),
-        )
-    ]
-    data = {
-        "position_name": position_name,
-        "industry": industry_name,
-        "general_competencies": general_competencies,
-        "professional_competencies": professional_competencies,
-    }
-    if position_type.is_leader:
-        leader_competencies = [
-            obj.leader_experience
-            for obj in Leader.objects.filter(position_type=position_type)
-        ]
-        data.update({"leader_competencies": leader_competencies})
+    data = get_list_of_competencies(
+        position=position, industry=industry, document_id=document_id
+    )
 
-    if document_id is None:
-        document_id = generate_document(data)
-        serializer = ShowSeveralCompetenciesSerializer(
-            {
-                "document_id": document_id,
-                "positions": [data],
-            }
-        )
-    else:
-        new_document_id = extend_document(document_id, data)
-        data_from_document = get_data_from_document(document_id)
-        data_from_document.append(data)
-        serializer = ShowSeveralCompetenciesSerializer(
-            {
-                "document_id": new_document_id,
-                "positions": data_from_document,
-            }
-        )
-    return Response(serializer.data)
+    return Response(data=ShowSeveralCompetenciesSerializer(data).data)
 
 
 @api_view(["POST"])
 def get_resume(request: Request) -> Response:
-    serializer_for_request = GetResumeSerializer(data=request.data)
+    deserializer = GetResumeSerializer(data=request.data)
 
-    if not serializer_for_request.is_valid():
+    if not deserializer.is_valid():
         return Response(
             data={"message": "Invalid data"},
-            status=status.HTTP_400_BAD_REQUEST,
+            status=status.HTTP_422_UNPROCESSABLE_ENTITY,
         )
-    data_from_request = serializer_for_request.data
-    # Возможно, в этом причина медленной работы, в рамках рефакторинг посмотреть
-    send_file_by_email(**data_from_request)
-    return Response(data={"message": "The e-mail was sent"})
+
+    try:
+        send_resume(data=deserializer.data)
+        return Response(data={"message": "The e-mail was sent"})
+    except (SMTPRecipientsRefused, SMTPDataError):
+        return Response(
+            data={"message": "Cannot send email"},
+            status=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        )

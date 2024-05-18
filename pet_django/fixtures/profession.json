@@ -1,0 +1,47 @@
+[
+{
+  "model": "resume.profession",
+  "pk": 1,
+  "fields": {
+    "professional_experience": "Знаю программу R_Keeper",
+    "position_type": 3,
+    "industry": 1
+  }
+},
+{
+  "model": "resume.profession",
+  "pk": 2,
+  "fields": {
+    "professional_experience": "Внедрял в компании программу \"Честный знак\"",
+    "position_type": 3,
+    "industry": 1
+  }
+},
+{
+  "model": "resume.profession",
+  "pk": 3,
+  "fields": {
+    "professional_experience": "Опытный менеджер в сфере пищевого производства с навыками управления производственными процессами, обеспечения качества продукции и управления персоналом",
+    "position_type": 1,
+    "industry": 1
+  }
+},
+{
+  "model": "resume.profession",
+  "pk": 4,
+  "fields": {
+    "professional_experience": "Проводил анализ ценовых предложений по различным базам данных о недвижимости",
+    "position_type": 1,
+    "industry": 12
+  }
+},
+{
+  "model": "resume.profession",
+  "pk": 5,
+  "fields": {
+    "professional_experience": "Подготавливал необходимые документы для проведения сделок объектов недвижимости",
+    "position_type": 1,
+    "industry": 12
+  }
+}
+]

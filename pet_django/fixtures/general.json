@@ -1,0 +1,154 @@
+[
+{
+  "model": "resume.general",
+  "pk": 1,
+  "fields": {
+    "general_experience": "Выполнял операции в системах учета данных",
+    "position_type": 3
+  }
+},
+{
+  "model": "resume.general",
+  "pk": 2,
+  "fields": {
+    "general_experience": "Осуществлял контроль операций на различных счетах учета",
+    "position_type": 3
+  }
+},
+{
+  "model": "resume.general",
+  "pk": 3,
+  "fields": {
+    "general_experience": "Оформлял отчетность компании для предоставления в надзирающие органы",
+    "position_type": 3
+  }
+},
+{
+  "model": "resume.general",
+  "pk": 4,
+  "fields": {
+    "general_experience": "Знаю требования законодательства по бухгалтерскому учету деятельности компаний",
+    "position_type": 3
+  }
+},
+{
+  "model": "resume.general",
+  "pk": 5,
+  "fields": {
+    "general_experience": "Управлял легковым и грузовым транспортом",
+    "position_type": 4
+  }
+},
+{
+  "model": "resume.general",
+  "pk": 6,
+  "fields": {
+    "general_experience": "Проходил обучение по безопасным методам вождения в различных погодных условиях",
+    "position_type": 4
+  }
+},
+{
+  "model": "resume.general",
+  "pk": 7,
+  "fields": {
+    "general_experience": "Оформлял путевую документацию",
+    "position_type": 4
+  }
+},
+{
+  "model": "resume.general",
+  "pk": 8,
+  "fields": {
+    "general_experience": "Вводил данные в различные системы компаний по учету перевозок",
+    "position_type": 4
+  }
+},
+{
+  "model": "resume.general",
+  "pk": 9,
+  "fields": {
+    "general_experience": "Разрабатывал краткосрочные и среднесрочные планы",
+    "position_type": 1
+  }
+},
+{
+  "model": "resume.general",
+  "pk": 10,
+  "fields": {
+    "general_experience": "Проводил анализ результатов в своей зоне ответственности и разрабатывал корректирующие мероприятия",
+    "position_type": 1
+  }
+},
+{
+  "model": "resume.general",
+  "pk": 11,
+  "fields": {
+    "general_experience": "Опытный врач с глубокой экспертизой в диагностике и лечении хронических заболеваний, обладающий навыками междисциплинарного сотрудничества и приверженностью к улучшению качества медицинской помощи",
+    "position_type": 7
+  }
+},
+{
+  "model": "resume.general",
+  "pk": 12,
+  "fields": {
+    "general_experience": "Опытный специалист с навыками управления и настройки промышленного оборудования",
+    "position_type": 6
+  }
+},
+{
+  "model": "resume.general",
+  "pk": 13,
+  "fields": {
+    "general_experience": "Опытный инженер с навыками проектирования и внедрения инновационных технических решений",
+    "position_type": 8
+  }
+},
+{
+  "model": "resume.general",
+  "pk": 14,
+  "fields": {
+    "general_experience": "Опытный специалист с навыками диагностики и ремонта сложного механического оборудования",
+    "position_type": 12
+  }
+},
+{
+  "model": "resume.general",
+  "pk": 15,
+  "fields": {
+    "general_experience": "Опытный специалист с навыками эффективных продаж и обслуживания клиентов",
+    "position_type": 2
+  }
+},
+{
+  "model": "resume.general",
+  "pk": 16,
+  "fields": {
+    "general_experience": "Опытный специалист с навыками выполнения различных рабочих задач с акцентом на качество и безопасность",
+    "position_type": 5
+  }
+},
+{
+  "model": "resume.general",
+  "pk": 17,
+  "fields": {
+    "general_experience": "Опытный лидер с навыками управления командой, развития стратегий и достижения целей",
+    "position_type": 10
+  }
+},
+{
+  "model": "resume.general",
+  "pk": 18,
+  "fields": {
+    "general_experience": "Опытный специалист с глубокими знаниями и навыками в своей области, способный решать сложные задачи и достигать поставленных целей",
+    "position_type": 9
+  }
+},
+{
+  "model": "resume.general",
+  "pk": 19,
+  "fields": {
+    "general_experience": "Опытный технолог с широкими знаниями в области производственных процессов и навыками оптимизации технологических процедур",
+    "position_type": 11
+  }
+}
+]

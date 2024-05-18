@@ -1,0 +1,98 @@
+[
+{
+  "model": "resume.positiontype",
+  "pk": 1,
+  "fields": {
+    "position_type_name": "Менеджер",
+    "is_leader": true
+  }
+},
+{
+  "model": "resume.positiontype",
+  "pk": 2,
+  "fields": {
+    "position_type_name": "Продавец",
+    "is_leader": false
+  }
+},
+{
+  "model": "resume.positiontype",
+  "pk": 3,
+  "fields": {
+    "position_type_name": "Бухгалтер",
+    "is_leader": false
+  }
+},
+{
+  "model": "resume.positiontype",
+  "pk": 4,
+  "fields": {
+    "position_type_name": "Водитель",
+    "is_leader": false
+  }
+},
+{
+  "model": "resume.positiontype",
+  "pk": 5,
+  "fields": {
+    "position_type_name": "Рабочий",
+    "is_leader": false
+  }
+},
+{
+  "model": "resume.positiontype",
+  "pk": 6,
+  "fields": {
+    "position_type_name": "Оператор",
+    "is_leader": false
+  }
+},
+{
+  "model": "resume.positiontype",
+  "pk": 7,
+  "fields": {
+    "position_type_name": "Врач",
+    "is_leader": false
+  }
+},
+{
+  "model": "resume.positiontype",
+  "pk": 8,
+  "fields": {
+    "position_type_name": "Инженер",
+    "is_leader": false
+  }
+},
+{
+  "model": "resume.positiontype",
+  "pk": 9,
+  "fields": {
+    "position_type_name": "Специалист",
+    "is_leader": false
+  }
+},
+{
+  "model": "resume.positiontype",
+  "pk": 10,
+  "fields": {
+    "position_type_name": "Руководитель",
+    "is_leader": true
+  }
+},
+{
+  "model": "resume.positiontype",
+  "pk": 11,
+  "fields": {
+    "position_type_name": "Технолог",
+    "is_leader": false
+  }
+},
+{
+  "model": "resume.positiontype",
+  "pk": 12,
+  "fields": {
+    "position_type_name": "Механик",
+    "is_leader": false
+  }
+}
+]
