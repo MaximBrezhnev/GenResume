@@ -3,6 +3,7 @@ from smtplib import SMTPRecipientsRefused
 
 from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.exceptions import ValidationError
 from rest_framework.request import Request
 from rest_framework.response import Response
 from resume.models import Position
@@ -44,7 +45,7 @@ def create_position(request: Request) -> Response:
     if not deserializer.is_valid():
         return Response(
             data={"message": "Invalid data"},
-            status=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            status=status.HTTP_400_BAD_REQUEST,
         )
 
     response_data = get_response_data_when_creating(data=deserializer.data)
@@ -57,11 +58,19 @@ def get_competencies(request: Request) -> Response:
     industry = request.query_params.get("industry")
     document_id = request.query_params.get("document_id", None)
 
-    data = get_list_of_competencies(
-        position=position, industry=industry, document_id=document_id
-    )
-
-    return Response(data=ShowSeveralCompetenciesSerializer(data).data)
+    try:
+        data = get_list_of_competencies(
+            position=position, industry=industry, document_id=document_id
+        )
+        return Response(data=ShowSeveralCompetenciesSerializer(data).data)
+    except ValidationError:
+        return Response(
+            data={
+                "document_id": document_id,
+                "message": "These position and industry are already in the document",
+            },
+            status=status.HTTP_409_CONFLICT,
+        )
 
 
 @api_view(["POST"])
@@ -71,7 +80,7 @@ def get_resume(request: Request) -> Response:
     if not deserializer.is_valid():
         return Response(
             data={"message": "Invalid data"},
-            status=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            status=status.HTTP_400_BAD_REQUEST,
         )
 
     try:

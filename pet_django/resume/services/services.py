@@ -1,5 +1,6 @@
 from typing import Optional
 
+from rest_framework.exceptions import ValidationError
 from resume.services.db_services import create_new_position
 from resume.services.db_services import get_general_competencies
 from resume.services.db_services import get_industries
@@ -42,7 +43,7 @@ def get_position_and_types(document_id: Optional[str], position: str) -> dict:
 
 def _form_data_with_position_and_types(position_name: str) -> dict:
     return {
-        "position": position_name.capitalize(),
+        "position": position_name,
         "position_types": get_position_types(),
     }
 
@@ -52,9 +53,11 @@ def get_response_data_when_creating(data: dict) -> dict:
         position=data.get("position_name"), position_type=data.get("position_type")
     ).position_name
 
-    data = _form_data_with_position_and_industries(position_name=new_position)
-    _add_document_id_to_data(document_id=data.get("document_id", None), data=data)
-    return data
+    response_data = _form_data_with_position_and_industries(position_name=new_position)
+    _add_document_id_to_data(
+        document_id=data.get("document_id", None), data=response_data
+    )
+    return response_data
 
 
 def get_list_of_competencies(
@@ -70,19 +73,18 @@ def _form_data_when_getting_competencies(position: str, industry: str) -> dict:
         "position": position,
         "industry": industry,
         "general_competencies": get_general_competencies(position_type=position_type),
-        "professional_competencies": get_professional_competencies(
-            position_type=position_type, industry=industry
-        ),
     }
 
+    professional_competencies = get_professional_competencies(
+        position_type=position_type, industry=industry
+    )
+    if professional_competencies:
+        data.update({"professional_competencies": professional_competencies})
+
     if position_type.is_leader:
-        data.update(
-            {
-                "leader_competencies": get_leader_competencies(
-                    position_type=position_type
-                )
-            }
-        )
+        leader_competencies = get_leader_competencies(position_type=position_type)
+        if leader_competencies:
+            data.update({"leader_competencies": leader_competencies})
     return data
 
 
@@ -96,15 +98,29 @@ def _format_data_when_getting_competencies(
             "positions": [data],
         }
     else:
-        new_document_id = extend_document(document_id, data)
         data_from_document = get_data_from_document(document_id)
-        data_from_document.append(data)
-        return {
-            "document_id": new_document_id,
-            "positions": data_from_document,
-        }
+
+        if _check_data_matching(data_from_document, data):
+            raise ValidationError
+        else:
+            new_document_id = extend_document(document_id, data)
+            data_from_document.append(data)
+            return {
+                "document_id": new_document_id,
+                "positions": data_from_document,
+            }
+
+
+def _check_data_matching(data_from_document: list, data: dict) -> bool:
+    for position_data in data_from_document:
+        if (
+            position_data["position"] == data["position"]
+            and position_data["industry"] == data["industry"]
+        ):
+            return True
+
+    return False
 
 
 def send_resume(data: dict) -> None:
-    # Возможно, в этом причина медленной работы, в рамках рефакторинг посмотреть
-    send_file_by_email(**data)
+    send_file_by_email.delay(**data)

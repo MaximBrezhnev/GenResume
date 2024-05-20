@@ -11,4 +11,5 @@ RUN fc-cache -f -v
 RUN pip install -r requirements.txt
 
 
-CMD ["python3", "./pet_django/manage.py", "runserver", "0.0.0.0:7000"]
+CMD ["python3", "./pet_django/manage.py", "runserver", "0.0.0.0:8000"]
+#8000

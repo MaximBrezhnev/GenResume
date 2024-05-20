@@ -24,7 +24,7 @@ class CompetenciesSerializer(serializers.Serializer):
     )
     general_competencies = serializers.ListSerializer(child=serializers.CharField())
     professional_competencies = serializers.ListSerializer(
-        child=serializers.CharField()
+        child=serializers.CharField(), required=False
     )
 
 

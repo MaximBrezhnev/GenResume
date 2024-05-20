@@ -9,15 +9,14 @@ from pet_django import settings
 @receiver(post_save, sender=Position)
 def send_email_to_admin(sender, instance: Position, created: bool, **kwargs) -> None:
     if created:
-        if not instance.pk:
-            subject = "Новая позиция создана"
-            message = (
-                f"Была создана новая позиция с названием: {instance.position_name}, "
-                f"которая была отнесена к виду: {instance.position_type.position_type_name}"
-            )
-            from_email = settings.DEFAULT_FROM_EMAIL
-            recipient_list = [
-                settings.EMAIL_ADMIN,
-            ]
+        subject = "Новая позиция создана"
+        message = (
+            f'Была создана новая позиция с названием "{instance.position_name}", '
+            f'которая была отнесена к виду "{instance.position_type.position_type_name}"'
+        )
+        from_email = settings.DEFAULT_FROM_EMAIL
+        recipient_list = [
+            settings.EMAIL_ADMIN,
+        ]
 
-            send_mail(subject, message, from_email, recipient_list)
+        send_mail(subject, message, from_email, recipient_list)

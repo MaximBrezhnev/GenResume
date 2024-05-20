@@ -4,6 +4,8 @@ services:
   db:
     image: postgres:16-alpine
     restart: always
+    volumes:
+      - ~/.pg/pg_data/pet_django:/var/lib/postgresql/data
     env_file:
       - .env
     ports:
@@ -14,6 +16,8 @@ services:
   redis:
     image: redis
     restart: always
+    ports:
+      - "6379:6379"
     networks:
       - custom
 
@@ -23,8 +27,22 @@ services:
       - db
     build:
       context: .
+    env_file:
+      - .env
+    working_dir: /app/pet_django
+    volumes:
+      - document_volume:/app/pet_django/resume/documents
     ports:
-      - "7000:7000"
+      - "8000:8000"
+    command: >
+      bash -c "python3 manage.py migrate &&
+      python3 manage.py loaddata fixtures/position_type.json &&
+      python3 manage.py loaddata fixtures/position.json &&
+      python3 manage.py loaddata fixtures/industry.json &&
+      python3 manage.py loaddata fixtures/profession.json &&
+      python3 manage.py loaddata fixtures/general.json &&
+      python3 manage.py loaddata fixtures/leader.json &&
+      gunicorn -b 0.0.0.0:8000 pet_django.wsgi:application"
     networks:
       - custom
 
@@ -32,12 +50,44 @@ services:
     restart: always
     depends_on:
       - redis
+      - app
     build:
       context: .
+    volumes:
+      - document_volume:/app/pet_django/resume/documents
+    command: ["celery", "--workdir=./pet_django", "-A", "pet_django", "worker"]
     networks:
       - custom
-    command: ["celery", "--workdir=./pet_django", "-A", "pet_django", "worker"]
 
+  nginx:
+    build:
+      dockerfile: ./Dockerfile
+      context: ./pet_django/docker/nginx
+    restart: always
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/www/certbot:/var/www/certbot
+    depends_on:
+      - worker
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - custom
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/www/certbot:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    depends_on:
+      - nginx
+    networks:
+      - custom
+
+volumes:
+  document_volume:
 
 networks:
   custom:

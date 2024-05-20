@@ -1,3 +1,4 @@
+import os.path
 import uuid
 
 import PyPDF2
@@ -24,7 +25,7 @@ def _form_text_for_pdf(
     sample_style_sheet: StyleSheet1,
     flowables: list[Paragraph],
 ) -> None:
-    if key == "position_name":
+    if key == "position":
         paragraph = Paragraph(f"Позиция: {value};", sample_style_sheet["Arial"])
         flowables.append(paragraph)
     elif key == "industry":
@@ -47,6 +48,10 @@ def _form_text_for_pdf(
         flowables.append(paragraph)
 
 
+def _extract_document_id_from_filename(filename: str) -> str:
+    return os.path.split(filename)[1].split(".")[0]
+
+
 def generate_document(data: dict[str : str | list[str]]) -> str:
     filename = _generate_filename()
     my_doc = SimpleDocTemplate(filename)
@@ -61,14 +66,17 @@ def generate_document(data: dict[str : str | list[str]]) -> str:
 
     my_doc.build(flowables)
 
-    return filename.split(".")[0].split("/")[-1]
+    return _extract_document_id_from_filename(filename=filename)
+
+
+def get_filename_by_document_id(document_id: str) -> str:
+    return str(BASE_DIR / "resume" / "documents" / f"{document_id}.pdf")
 
 
 def _extract_text_from_document(document_id: str) -> str:
     text = ""
 
-    folder_path = BASE_DIR / "resume" / "documents"
-    filename = folder_path / f"{document_id}.pdf"
+    filename = get_filename_by_document_id(document_id)
 
     with open(filename, "rb") as file:
         pdf_reader = PyPDF2.PdfReader(file)
@@ -95,7 +103,10 @@ def _convert_text_to_dict(text: str) -> list[dict[str : str | list[str]]]:
             if len(value.split(", ")) > 1:
                 data[key] = value.split(", ")
             else:
-                data[key] = value
+                if key in ("Общий опыт", "Опыт лидера", "Профессиональный опыт"):
+                    data[key] = [value]
+                else:
+                    data[key] = value
         position_list.append(data)
 
     return position_list
@@ -110,7 +121,7 @@ def _form_dict_for_response(
         data_for_response = {}
         for key, value in position.items():
             if key == "Позиция":
-                data_for_response["position_name"] = value
+                data_for_response["position"] = value
             elif key == "Отрасль":
                 data_for_response["industry"] = value
             elif key == "Опыт лидера":
@@ -124,7 +135,9 @@ def _form_dict_for_response(
     return position_list_for_response
 
 
-def get_data_from_document(document_id: str) -> list[dict[str : str | list[str]]]:
+def get_data_from_document(
+    document_id: str,
+) -> list[dict[str : str | list[str]]]:
     text = _extract_text_from_document(document_id)
     data = _convert_text_to_dict(text)
     return _form_dict_for_response(data)
@@ -143,22 +156,22 @@ def _reformat_extracted_text(
 
 
 def extend_document(document_id: str, data: dict[str:str]) -> str:
-    folder_path = BASE_DIR / "resume" / "documents"
-    filename = str(folder_path / f"{document_id}.pdf")
+    filename = get_filename_by_document_id(document_id)
     new_filename = _generate_filename()
 
     my_doc = SimpleDocTemplate(new_filename)
     sample_style_sheet = getSampleStyleSheet()
-    pdfmetrics.registerFont(TTFont("Arial", "/usr/share/fonts/truetype/arial.ttf"))
+    pdfmetrics.registerFont(TTFont("Arial", "arial.ttf"))
     sample_style_sheet.add(ParagraphStyle(name="Arial", fontName="Arial"))
     flowables = []
 
     existing_pdf = PdfReader(filename)
     for page in existing_pdf.pages:
         _reformat_extracted_text(page.extract_text(), sample_style_sheet, flowables)
+    os.remove(filename)
 
     for key, value in data.items():
         _form_text_for_pdf(key, value, sample_style_sheet, flowables)
 
     my_doc.build(flowables)
-    return new_filename.split(".")[0].split("/")[-1]
+    return _extract_document_id_from_filename(filename=new_filename)

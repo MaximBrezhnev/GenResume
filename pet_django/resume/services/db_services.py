@@ -7,7 +7,12 @@ from resume.models import Profession
 
 
 def get_position_name(position: str) -> str:
-    return Position.objects.get(position_name__iexact=position).position_name
+    position = _format_position_name(position_name=position)
+    return Position.objects.get(position_name__exact=position).position_name
+
+
+def _format_position_name(position_name: str) -> str:
+    return position_name.strip().capitalize()
 
 
 def get_industries() -> list[Industry]:
@@ -19,6 +24,7 @@ def get_position_types() -> list[PositionType]:
 
 
 def create_new_position(position: str, position_type: str) -> Position:
+    position = _format_position_name(position_name=position)
     return Position.objects.create(
         position_name=position,
         position_type=_get_position_type(position_type=position_type),
