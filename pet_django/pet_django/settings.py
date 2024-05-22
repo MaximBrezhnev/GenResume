@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "resume",
     "rest_framework",
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -115,3 +116,10 @@ EMAIL_ADMIN = EMAIL_HOST_USER
 
 
 CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
+
+
+REST_FRAMEWORK = {"DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema"}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "GenResume",
+}

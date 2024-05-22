@@ -1,0 +1,78 @@
+openapi: 3.0.3
+info:
+  title: GenResume
+  version: 0.0.0
+paths:
+  /api/v1/resumes/check-position/:
+    get:
+      operationId: api_v1_resumes_check_position_retrieve
+      description: |-
+        View, возвращающее полученную позицию и список отраслей для
+        последующего выбора, если такая позиция уже существует. В противном
+        случае возвращает полученную позицию и список типов позиций для
+        последующего выбора
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/resumes/competencies/:
+    get:
+      operationId: api_v1_resumes_competencies_retrieve
+      description: |-
+        View, возвращающее список компетенций, которые
+        соответствуют полученной позиции и отрасли. В случае,
+        если пользователь в рамках сессии уже имеет документ с резюме,
+        компетенции из него также возвращаются
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/resumes/create-position/:
+    post:
+      operationId: api_v1_resumes_create_position_create
+      description: |-
+        View, создающее переданную позицию с указанным типом и возвращающее
+        список отраслей для их последующего выбора
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/resumes/get-resume/:
+    post:
+      operationId: api_v1_resumes_get_resume_create
+      description: |-
+        View, отправляющее письмо, содержащее резюме,
+        на полученный адрес электронной почты
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
