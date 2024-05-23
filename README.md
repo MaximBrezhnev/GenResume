@@ -59,7 +59,7 @@ git clone https://github.com/MaximBrezhnev/GenResume.git
 5. Запустите контейнеры с приложением, background worker'ом celery, redis, nginx, postgres командой
 ```
 docker compose up -d
-
+```
 
 # Документация
 
